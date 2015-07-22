@@ -1,0 +1,50 @@
+This is a sample of Ryu controller for referrence
+
+controller: ryu core tar package
+Ryu-3.23.tar.gz is from https://github.com/osrg/ryu/releases/tag/v3.23
+This is the official release package of version-3.23
+
+app: applications of 3rd-party and developped by meshsr
+1. 3rd-party: third-party plug-in
+Recently it is empty, later we may bring in other plug-ins
+
+2. applications developped by meshsr: begin with prefix "msr-"
+Recently just a simple switch example msr-simple_switch
+modified from official source ryu/app/simple_switch_13.py
+Later we may add other applications.
+
+How to compose these files and install ryu
+1. download the repo to your local position <git_repo>
+    mkdir git_repo
+    cd git_repo/
+    git clone https://github.com/MeshSr/of-ctrl
+2. untar the Ryu-3.23 package to <proj_name>
+    mkdir proj_name
+    cd proj_name
+    tar xvf git_repo/ryu/controller/Ryu-3.23.tar.gz
+3. copy all the appliactions to proj_name/ryu-3.23/ryu/app/
+    cp git_repo/of-ctrl/ryu/app/* proj_name/ryu-3.23/ryu/app/ -rf
+4. install ryu
+    cd proj_name/ryu-3.23/
+    sudo python setup.py install
+
+NOTE:
+This step may need some extra dependent libraries, please download and install them first
+
+How to use the web gui 
+1. ./bin/ryu-manager --verbose --observe-links ryu/app/gui_topology/gui_topology.py
+2. open the web browser, and type in "localhost:8080", then you will see the web interface
+
+How to use simple switch example
+1. ./bin/ryu-manager --verbose ryu/app/msr-simple_switch/simple_switch_13.py
+
+NOTE:
+We have modified the original source file, because we configure
+our switches' packet-in packets with packet-buffered by default
+
+So we use the file simple_switch_13.py of previous verison of ryu<ryu-3.8>
+to replace the same file of ryu-3.23
+
+Otherwise there maybe a lot of packet-in events,
+and the ofsoftswitch13 will write the packet-in entry all the time
+
